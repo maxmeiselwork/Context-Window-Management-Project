@@ -2,9 +2,9 @@
 chunker.py
 
 """
-CHUNK_SIZE   = 700  # Words per chunk (~910 tokens) — sized to fit within
-                    # BART-large-CNN's 1,024 token hard limit.
-OVERLAP_SIZE =  50  # Words carried over from the previous chunk
+CHUNK_SIZE   = 50  # Words per chunk — small enough to split a short essay into
+                    # several meaningful pieces for BART to summarize individually.
+OVERLAP_SIZE =  10  # Words carried over from the previous chunk
 
 
 

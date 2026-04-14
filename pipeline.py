@@ -37,16 +37,7 @@ def run(pdf_path: str):
     raw_word_count = len(raw_text.split())
     print(f"[pipeline] Document loaded — {raw_word_count:,} words total.")
 
-    # Cap input for the BART path — 700-word chunks at ~3s each.
-    # 20,000 words gives ~28 chunks and runs in ~2-3 minutes.
-    DEMO_WORD_CAP = 20_000
-    words = raw_text.split()
-    if len(words) > DEMO_WORD_CAP:
-        raw_text_for_bart = " ".join(words[:DEMO_WORD_CAP])
-        print(f"[pipeline] BART path capped at first {DEMO_WORD_CAP:,} words "
-              f"({DEMO_WORD_CAP/raw_word_count*100:.1f}% of document) for demo speed.")
-    else:
-        raw_text_for_bart = raw_text
+    raw_text_for_bart = raw_text
     print()
 
     # Step 2 — Chunk the capped text for the BART path

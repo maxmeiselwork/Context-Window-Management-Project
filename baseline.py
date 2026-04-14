@@ -1,13 +1,8 @@
 """
 baseline.py
 
-The naive baseline: send as much raw PDF text as the context window allows
-directly to GPT-4o-mini — no chunking, no local summarization.
-
-Because the Odyssey is ~202k tokens and GPT-4o-mini's context window is
-128k tokens, the text is truncated to MAX_BASELINE_WORDS before sending.
-This means the baseline only sees roughly 60% of the document — the
-truncation is the key finding that motivates the T5 chunking approach.
+The naive baseline: send the full raw text directly to GPT-4o-mini —
+no chunking, no local summarization.
 """
 
 from openai_client import summarize_with_openai, TokenUsage, CONTEXT_LIMIT

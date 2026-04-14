@@ -4,8 +4,6 @@ openai_client.py
 Handles all calls to the OpenAI API and tracks token usage for each request.
 
 Model: gpt-4o-mini — 128k token context window.
-The Odyssey PDF (~202k tokens) exceeds this, which is the baseline failure
-this project demonstrates.
 """
 
 import os
