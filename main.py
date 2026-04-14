@@ -1,7 +1,5 @@
 """
-main.py
-
-Entry point for the memory management experiment.
+main.py.
 
 """
 
@@ -26,7 +24,7 @@ def main():
 
     print("\n" + "=" * 72)
     print("  MEMORY MANAGEMENT EXPERIMENT")
-    print("  Comparing: Baseline vs Long-T5  ->  GPT-4o-mini")
+    print("  Comparing: Baseline vs BART-large-CNN  ->  GPT-4o-mini")
     print("=" * 72)
     print(f"  PDF:    {args.pdf}")
     print(f"  Prompt: Summarize the text. Include all major episodes and stories.")

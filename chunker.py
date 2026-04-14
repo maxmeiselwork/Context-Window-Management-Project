@@ -2,9 +2,10 @@
 chunker.py
 
 """
-CHUNK_SIZE   = 10000  # Words per chunk (~13,000 tokens) — sized to fit within
-                      # Long-T5's 16,384 token context window with headroom.
-OVERLAP_SIZE =   200  # Words carried over from the previous chunk
+CHUNK_SIZE   = 700  # Words per chunk (~910 tokens) — sized to fit within
+                    # BART-large-CNN's 1,024 token hard limit.
+OVERLAP_SIZE =  50  # Words carried over from the previous chunk
+
 
 
 def chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = OVERLAP_SIZE) -> list:

@@ -15,7 +15,7 @@ RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 matplotlib.use("Agg")
 
 COLOURS = ["#6c757d", "#0d9488"]
-LABELS  = ["Baseline\n(GPT-4o-mini)", "Long-T5\n+ GPT-4o-mini"]
+LABELS  = ["Baseline\n(GPT-4o-mini)", "BART-large-CNN\n+ GPT-4o-mini"]
 
 
 # Metric computation
@@ -54,7 +54,7 @@ def _print_table(results: list):
     print("\n" + "=" * 72)
     print("  RESULTS COMPARISON")
     print("=" * 72)
-    print(f"  {'Metric':<30} {'Baseline':>18} {'T5':>18}")
+    print(f"  {'Metric':<30} {'Baseline':>18} {'BART':>18}")
     _print_divider()
 
     metrics = [
@@ -236,13 +236,13 @@ def evaluate(
     baseline_summary: str,
     baseline_usage:   TokenUsage,
     baseline_elapsed: float,
-    t5_summary:       str,
-    t5_usage:         TokenUsage,
-    t5_elapsed:       float,
+    bart_summary:     str,
+    bart_usage:       TokenUsage,
+    bart_elapsed:     float,
 ):
     results = [
         _compute_metrics("Baseline", raw_word_count, baseline_summary, baseline_usage, baseline_elapsed),
-        _compute_metrics("T5",       raw_word_count, t5_summary,       t5_usage,       t5_elapsed),
+        _compute_metrics("BART",     raw_word_count, bart_summary,     bart_usage,     bart_elapsed),
     ]
 
     _print_table(results)

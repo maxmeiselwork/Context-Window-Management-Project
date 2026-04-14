@@ -6,12 +6,12 @@ pipeline.py
 import time
 import traceback
 
-from pdf_loader    import load_pdf
-from chunker       import chunk_text
-from baseline      import run_baseline
-from t5_summarizer import summarize_chunks as t5_summarize
-from openai_client import summarize_with_openai, TokenUsage
-from evaluate      import evaluate
+from pdf_loader      import load_pdf
+from chunker         import chunk_text
+from baseline        import run_baseline
+from bart_summarizer import summarize_chunks as bart_summarize
+from openai_client   import summarize_with_openai, TokenUsage
+from evaluate        import evaluate
 
 
 
@@ -32,15 +32,26 @@ def run(pdf_path: str):
     """
 
     # Step 1 — Load PDF
-
     print("\n[pipeline] === Step 1: Loading PDF ===")
     raw_text       = load_pdf(pdf_path)
     raw_word_count = len(raw_text.split())
-    print(f"[pipeline] Document loaded — {raw_word_count:,} words total.\n")
+    print(f"[pipeline] Document loaded — {raw_word_count:,} words total.")
 
-    # Step 2 — Chunk the raw text (used by the T5 path)
+    # Cap input for the BART path — 700-word chunks at ~3s each.
+    # 20,000 words gives ~28 chunks and runs in ~2-3 minutes.
+    DEMO_WORD_CAP = 20_000
+    words = raw_text.split()
+    if len(words) > DEMO_WORD_CAP:
+        raw_text_for_bart = " ".join(words[:DEMO_WORD_CAP])
+        print(f"[pipeline] BART path capped at first {DEMO_WORD_CAP:,} words "
+              f"({DEMO_WORD_CAP/raw_word_count*100:.1f}% of document) for demo speed.")
+    else:
+        raw_text_for_bart = raw_text
+    print()
+
+    # Step 2 — Chunk the capped text for the BART path
     print("[pipeline] === Step 2: Chunking text ===")
-    chunks = chunk_text(raw_text)
+    chunks = chunk_text(raw_text_for_bart)
     print(f"[pipeline] {len(chunks)} chunks ready.\n")
 
     # Step 3 — Path A: Baseline (raw text -> GPT-4o-mini, no chunking)
@@ -56,24 +67,24 @@ def run(pdf_path: str):
     baseline_elapsed = time.time() - baseline_start
     print(f"[pipeline] Baseline finished in {baseline_elapsed:.1f}s\n")
 
-    # Step 4 — Path B: T5 local summarization -> GPT-4o-mini
-    print("[pipeline] === Step 4: Path B — T5 + GPT-4o-mini ===")
-    t5_start = time.time()
+    # Step 4 — Path B: BART local summarization -> GPT-4o-mini
+    print("[pipeline] === Step 4: Path B — BART + GPT-4o-mini ===")
+    bart_start = time.time()
     try:
-        # T5 summarizes all chunks locally into one condensed string
-        t5_local_summary = t5_summarize(chunks)
+        # BART summarizes all chunks locally into one condensed string
+        bart_local_summary = bart_summarize(chunks)
 
-        # Pass the condensed T5 output to GPT-4o-mini for a final polished summary
-        t5_summary, t5_usage = summarize_with_openai(
-            t5_local_summary, label="T5 (chunked)"
+        # Pass the condensed BART output to GPT-4o-mini for a final polished summary
+        bart_summary, bart_usage = summarize_with_openai(
+            bart_local_summary, label="BART (chunked)"
         )
     except Exception as e:
-        print(f"[pipeline] T5 path FAILED:")
+        print(f"[pipeline] BART path FAILED:")
         traceback.print_exc()
-        t5_summary = _failed_summary("T5", e)
-        t5_usage   = _zero_usage()
-    t5_elapsed = time.time() - t5_start
-    print(f"[pipeline] T5 path finished in {t5_elapsed:.1f}s\n")
+        bart_summary = _failed_summary("BART", e)
+        bart_usage   = _zero_usage()
+    bart_elapsed = time.time() - bart_start
+    print(f"[pipeline] BART path finished in {bart_elapsed:.1f}s\n")
 
     # Step 5 — Evaluate and print comparison report + generate charts
     print("[pipeline] === Step 5: Evaluation ===")
@@ -82,7 +93,7 @@ def run(pdf_path: str):
         baseline_summary = baseline_summary,
         baseline_usage   = baseline_usage,
         baseline_elapsed = baseline_elapsed,
-        t5_summary       = t5_summary,
-        t5_usage         = t5_usage,
-        t5_elapsed       = t5_elapsed,
+        bart_summary     = bart_summary,
+        bart_usage       = bart_usage,
+        bart_elapsed     = bart_elapsed,
     )
