@@ -2,9 +2,9 @@
 chunker.py
 
 """
-CHUNK_SIZE   = 50  # Words per chunk — small enough to split a short essay into
+CHUNK_SIZE   = 500  # Words per chunk — small enough to split a short essay into
                     # several meaningful pieces for BART to summarize individually.
-OVERLAP_SIZE =  10  # Words carried over from the previous chunk
+OVERLAP_SIZE =  40  # Words carried over from the previous chunk
 
 
 

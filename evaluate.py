@@ -11,7 +11,7 @@ from openai_client import TokenUsage
 
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 
-# Use non-interactive backend so charts save without needing a display
+# Use non-interactive backend so charts save without needing a display.
 matplotlib.use("Agg")
 
 COLOURS = ["#6c757d", "#0d9488"]

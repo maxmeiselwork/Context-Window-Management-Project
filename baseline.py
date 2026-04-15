@@ -8,8 +8,7 @@ no chunking, no local summarization.
 from openai_client import summarize_with_openai, TokenUsage, CONTEXT_LIMIT
 
 
-# At ~1.3 tokens/word, 90,000 words ≈ 117,000 tokens — safely under the
-# 128k limit once the system prompt and output tokens are included.
+# 128k limit once the system prompt and output tokens are included for 4o mini.
 MAX_BASELINE_WORDS = 90_000
 
 

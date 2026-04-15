@@ -7,7 +7,7 @@ import argparse
 from pipeline import run
 
 
-DEFAULT_PDF = "data/The-Odyssey-of-Homer---Lattimore-Richmond-lv1hj.pdf"
+DEFAULT_PDF = "data/ECE 4950 - Proposal Final- ECE-4 (1).pdf"
 
 
 def main():
@@ -27,7 +27,7 @@ def main():
     print("  Comparing: Baseline vs BART-large-CNN  ->  GPT-4o-mini")
     print("=" * 72)
     print(f"  PDF:    {args.pdf}")
-    print(f"  Prompt: Summarize the text. Include all major episodes and stories.")
+    print(f"  Prompt: Summarize the text.")
     print("=" * 72 + "\n")
 
     run(pdf_path=args.pdf)

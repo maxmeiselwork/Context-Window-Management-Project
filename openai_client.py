@@ -17,8 +17,8 @@ CONTEXT_LIMIT     = 128_000
 MAX_OUTPUT_TOKENS = 4096
 
 SYSTEM_PROMPT = (
-    "Summarize the following text. Include all major episodes and stories. "
-    "Write in plain prose with no Markdown formatting, bullet points, or bold text."
+    """Summarize the following text. Preserve technical accuracy, capture the 
+      main arguments and findings, and write in clear concise prose."""
 )
 
 
