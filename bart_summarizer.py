@@ -2,7 +2,7 @@
 bart_summarizer.py
 
 Summarizes text chunks using BART-large-CNN (facebook/bart-large-cnn),
-running on GPU via Hugging Face transformers.
+running on GPU via Hugging Face transformers
 
 """
 

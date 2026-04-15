@@ -2,7 +2,7 @@
 pdf_loader.py
 
 Responsible for loading a PDF file from disk and extracting all of its text
-content into a single raw string.
+content into a single raw string
 
 """
 

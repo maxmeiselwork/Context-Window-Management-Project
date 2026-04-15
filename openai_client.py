@@ -17,8 +17,12 @@ CONTEXT_LIMIT     = 128_000
 MAX_OUTPUT_TOKENS = 4096
 
 SYSTEM_PROMPT = (
-    """Summarize the following text. Preserve technical accuracy, capture the 
-      main arguments and findings, and write in clear concise prose."""
+    "You are a memory summarization assistant for an AI system. "
+    "Summarize the following conversation history, extracting the key topics discussed, "
+    "decisions made, projects worked on, preferences expressed, and any important context. "
+    "Organize by topic. Be concise but preserve enough detail that a future AI instance "
+    "could use this summary as working memory to understand the user's ongoing work and goals. "
+    "Write in plain prose."
 )
 
 

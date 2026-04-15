@@ -1,5 +1,5 @@
 """
-main.py.
+main.py
 
 """
 
@@ -7,18 +7,18 @@ import argparse
 from pipeline import run
 
 
-DEFAULT_PDF = "data/ECE 4950 - Proposal Final- ECE-4 (1).pdf"
+DEFAULT_JSON = "data/conversations.json"
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Run the two-path summarization experiment on a PDF."
+        description="Run the two-path memory compression experiment on a Claude conversation export."
     )
     parser.add_argument(
-        "--pdf",
+        "--json",
         type    = str,
-        default = DEFAULT_PDF,
-        help    = f"Path to the PDF file to summarize. Defaults to: {DEFAULT_PDF}"
+        default = DEFAULT_JSON,
+        help    = f"Path to the conversations JSON file. Defaults to: {DEFAULT_JSON}"
     )
     args = parser.parse_args()
 
@@ -26,11 +26,10 @@ def main():
     print("  MEMORY MANAGEMENT EXPERIMENT")
     print("  Comparing: Baseline vs BART-large-CNN  ->  GPT-4o-mini")
     print("=" * 72)
-    print(f"  PDF:    {args.pdf}")
-    print(f"  Prompt: Summarize the text.")
+    print(f"  Source: {args.json}")
     print("=" * 72 + "\n")
 
-    run(pdf_path=args.pdf)
+    run(json_path=args.json)
 
 
 if __name__ == "__main__":

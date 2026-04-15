@@ -6,7 +6,7 @@ pipeline.py
 import time
 import traceback
 
-from pdf_loader      import load_pdf
+from json_loader     import load_json
 from chunker         import chunk_text
 from baseline        import run_baseline
 from bart_summarizer import summarize_chunks as bart_summarize
@@ -26,23 +26,17 @@ def _zero_usage() -> TokenUsage:
 
 # Main pipeline
 
-def run(pdf_path: str):
-    """
-    Run the full two-path experiment on a single PDF and print the report.
-    """
+def run(json_path: str):
 
-    # Step 1 — Load PDF
-    print("\n[pipeline] === Step 1: Loading PDF ===")
-    raw_text       = load_pdf(pdf_path)
+    # Step 1 — Load JSON conversation export
+    print("\n[pipeline] === Step 1: Loading JSON ===")
+    raw_text       = load_json(json_path)
     raw_word_count = len(raw_text.split())
-    print(f"[pipeline] Document loaded — {raw_word_count:,} words total.")
+    print(f"[pipeline] Conversations loaded — {raw_word_count:,} words total.\n")
 
-    raw_text_for_bart = raw_text
-    print()
-
-    # Step 2 — Chunk the capped text for the BART path
+    # Step 2 — Chunk the text for the BART path
     print("[pipeline] === Step 2: Chunking text ===")
-    chunks = chunk_text(raw_text_for_bart)
+    chunks = chunk_text(raw_text)
     print(f"[pipeline] {len(chunks)} chunks ready.\n")
 
     # Step 3 — Path A: Baseline (raw text -> GPT-4o-mini, no chunking)
